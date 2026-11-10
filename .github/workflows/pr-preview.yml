@@ -1,0 +1,49 @@
+# Builds every pull request and publishes it to the gh-pages branch under
+# pr-preview/pr-<number>/, then comments the preview URL on the PR.
+# Previews are removed when the PR is closed or merged.
+#
+# Preview URL pattern:
+#   https://lynalllab.github.io/opp-landingpage/pr-preview/pr-<number>/
+#
+# Requires GitHub Pages to be served from the gh-pages branch (Settings →
+# Pages → Source: "Deploy from a branch" → gh-pages / root). Until that
+# switch is made this workflow still runs but the previews are not served.
+name: PR preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+concurrency: pr-preview-${{ github.event.number }}
+
+permissions:
+  contents: write        # push the built preview to gh-pages
+  pull-requests: write   # comment the preview link on the PR
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        if: github.event.action != 'closed'
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build the site under the preview sub-path
+        if: github.event.action != 'closed'
+        run: |
+          bundle exec jekyll build --strict_front_matter \
+            --baseurl "/opp-landingpage/pr-preview/pr-${{ github.event.number }}"
+        env:
+          JEKYLL_ENV: production
+
+      - name: Publish or remove the preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./_site
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto
