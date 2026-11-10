@@ -1,0 +1,12 @@
+# ===================================================================
+# REGISTER PAGE (/register/)
+# All page chrome for register.html lives here. The "what it asks"
+# card content (steps + trust points) lives in _data/get_involved.yml
+# under `preview:`. The form URL is _data/site.yml: qualtrics_form_url.
+# ===================================================================
+
+back_label: "&larr; Back"
+heading: "Thank you for your interest in this project."
+lead: "The next page is a short form hosted by the University of Cambridge. Before you go, this is what it asks and how we look after what you tell us."
+continue_label: "Continue to the form &rarr;"
+continue_note: "Opens in a new tab &middot; about 5 minutes"

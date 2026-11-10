@@ -1,20 +1,23 @@
 # ===================================================================
 # FAQ project breakdown
-# Feeds the "What would I do?" answer on faqs.html (see _data/faqs.yml,
-# the item with "projects: true"). Each entry is one project card.
-# They're numbered automatically in the order listed here.
+# Feeds the "What would I do?" answer on get-involved.html (see
+# _data/faqs.yml, the item with "projects: true"). Each entry is one
+# project. They're numbered automatically in the order listed here.
 #
 #   title: project name (kept short — the years are shown separately)
-#   years: e.g. "2026–2027"
+#   years: e.g. "2027–2028"
 #   aim:   plain text/markdown, same rules as faqs.yml answers
 #   why_it_matters:
-#     pwle_label / pwle_text:           the "For PWLE & carers" column
-#     clinician_label / clinician_text: the "For clinicians & researchers" column
+#     pwle_label / pwle_text:           the "For PWLE & carers" column —
+#                                       only pwle_text is rendered on
+#                                       get-involved.html (no label)
+#     clinician_label / clinician_text: kept in data for reference but
+#                                       NOT shown on the page
 #   what_you_will_do: plain text/markdown
 # ===================================================================
 
 - title: "Conversations with science: helping AI to unlock the biology of mental health for public understanding"
-  years: "2026–2027"
+  years: "2027"
   aim: >
     We want to help AI-powered conversational search tools (like ChatGPT, Claude, open source
     Large Language Models, etc) be able provide accurate answers specifically for mental health

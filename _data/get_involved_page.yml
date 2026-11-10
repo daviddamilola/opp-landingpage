@@ -1,0 +1,54 @@
+# ===================================================================
+# GET INVOLVED PAGE (/get-involved/) — for patients, carers and public
+# All copy for get-involved.html lives here. The task cards pull from
+# _data/projects.yml, the FAQ accordion from _data/faqs.yml, and the
+# "What would I do?" project breakdown from _data/faq_projects.yml.
+# The register button links to /register/ (see _data/register_page.yml).
+# ===================================================================
+
+hero:
+  heading: "Could your experience help unlock better mental health treatments?"
+  subtitle: "Help us open up mental health data"
+
+# Full-width watercolour image under the hero. The image was not
+# supplied yet — leave `file` empty and nothing is rendered. When it
+# arrives, drop it in assets/images/, set `file` to its filename and
+# write a short descriptive `alt`.
+hero_image:
+  file: "get-involved-watercolour.webp"
+  width: 1439      # intrinsic pixel size — lets the browser reserve space before the image loads
+  height: 1176
+  alt: "Watercolour illustration of seven people of different ages and backgrounds working together around a table with laptops, charts and checklists, under a board titled Open Psychiatry Project."
+
+pitch:
+  problem_label: "Problem"
+  # DRAFT — needs review (feedback doc copy not available at time of writing)
+  problem: "Mental health data in the UK is fragmented across many separate resources and secure environments. That makes it hard to connect what we know about genes, cells and molecules with what happens to real people, and it slows down the search for better treatments."
+  solution_label: "Solution"
+  # DRAFT — needs review (feedback doc copy not available at time of writing)
+  solution: "The Open Psychiatry Project is building an open, publicly accessible resource that links these datasets safely, so researchers, health professionals and the public can explore the biology of mental health in one place. We want to build it with the people it is meant to serve."
+  paragraphs:
+    # DRAFT — needs review (feedback doc copy not available at time of writing)
+    - "We're looking for people with lived experience of mental illness, and people who care for them, to help shape what we build and how we build it."
+    - "We are looking at recruiting 12–16 people with lived experience across our workshop series, including a core group of 3–4 who will stay involved throughout."
+
+tasks:
+  heading: "The tasks"
+  eyebrow_prefix: "Project"
+  note: "The workshops will be very hands-on. Each task takes the form of a half-day workshop with 2–3 follow-up meetings, and most sessions will be held online."
+
+cta:
+  label: "Register your interest"
+  note: "Takes you to a short page about how we use your details, then the University of Cambridge's secure form &middot; about 5 minutes"
+
+faqs:
+  heading: "FAQs"
+  # Field labels for the "What would I do?" project breakdown
+  aim_label: "Aim"
+  why_label: "Why it matters"
+  what_label: "What you will do"
+
+contact:
+  good_experience_text_before_link: "Here you find more information how we make sure that you have a good experience:"
+  good_experience_link_text: "Impact"
+  email_text_before_link: "If your question isn't here, email"

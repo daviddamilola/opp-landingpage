@@ -1,0 +1,44 @@
+---
+layout: default
+title: Register your interest
+permalink: /register/
+description: "What the Open Psychiatry Project's register-interest form asks and how we look after your details, before you continue to the University of Cambridge's secure form."
+---
+
+<!-- ═══════════════════════════════════════════════════════════════
+     REGISTER YOUR INTEREST
+     Interstitial before the external Qualtrics form.
+     Edit: page copy lives in _data/register_page.yml; the "what it
+     asks" steps and trust points live in _data/get_involved.yml
+     (preview:). The form URL is _data/site.yml: qualtrics_form_url.
+     Styles — see _register-page.scss
+     ═══════════════════════════════════════════════════════════════ -->
+{% assign reg = site.data.register_page %}
+{% assign preview = site.data.get_involved.preview %}
+
+<section class="reg" id="register" aria-labelledby="reg-heading">
+  <div class="container">
+    <div class="reg-inner">
+      <a href="{{ '/get-involved/' | relative_url }}" class="reg-back">{{ reg.back_label }}</a>
+      <h1 id="reg-heading">{{ reg.heading }}</h1>
+      <p class="reg-lead">{{ reg.lead }}</p>
+
+      <div class="reg-card">
+        <span class="reg-card-label">{{ preview.label }}</span>
+        <ol>
+          {% for step in preview.steps %}
+          <li><span class="reg-num">{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span> <span>{{ step }}</span></li>
+          {% endfor %}
+        </ol>
+        <div class="reg-trust">
+          {% for point in preview.trust_points %}
+          <div><span class="reg-tick" aria-hidden="true">&check;</span> <span>{{ point }}</span></div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <a href="{{ site.data.site.qualtrics_form_url }}" class="btn btn--primary" target="_blank" rel="noopener">{{ reg.continue_label }}</a>
+      <p class="btn-note">{{ reg.continue_note }}</p>
+    </div>
+  </div>
+</section>

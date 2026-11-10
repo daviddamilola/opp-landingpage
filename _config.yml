@@ -5,6 +5,7 @@ baseurl: "/opp-landingpage"
 
 plugins:
   - jekyll-seo-tag
+  - jekyll-redirect-from
 
 sass:
   style: compressed

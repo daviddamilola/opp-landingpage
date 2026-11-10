@@ -1,0 +1,100 @@
+// ===================================================================
+// REGISTER PAGE (/register/)
+// register.html only — interstitial shown before the external
+// Qualtrics form. The .reg-card look is carried over from the old
+// home-page .register-preview card (formerly in _register.scss).
+// .btn-note (the line under the button) is the shared helper defined
+// in _get-involved.scss.
+// ===================================================================
+
+.reg {
+  background: $off-white;
+  padding: calc(3.5rem + 80px) 0 6.5rem;   // clears the fixed nav (see .team-intro)
+
+  .reg-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reg-back {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $plum;
+    text-decoration: none;
+    margin-bottom: 1.75rem;
+    &:hover { text-decoration: underline; }
+  }
+
+  h1 {
+    color: $plum;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    line-height: 1.18;
+    margin-bottom: 1rem;
+  }
+
+  .reg-lead {
+    margin: 0 0 2rem;
+    font-size: 1.09rem;
+    line-height: 1.65;
+    color: #4a3a48;
+    text-wrap: pretty;
+  }
+
+  // ---- "what it asks" card -------------------------------------------
+  .reg-card {
+    width: 100%;
+    background: $white;
+    border: 1px solid rgba($dark, 0.09);
+    border-radius: 8px;
+    padding: 1.75rem 1.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+
+    .reg-card-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: $teal-text;
+    }
+
+    ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+    }
+    li { display: flex; gap: 0.875rem; align-items: baseline; }
+    .reg-num { flex: none; font-size: 0.8rem; font-weight: 700; color: $plum; }
+    li span:last-child { font-size: 0.97rem; line-height: 1.5; color: #4a4060; }
+
+    .reg-trust {
+      border-top: 1px solid rgba($dark, 0.09);
+      padding-top: 1.125rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6875rem;
+
+      div { display: flex; gap: 0.6875rem; align-items: baseline; }
+      .reg-tick { flex: none; color: $teal-text; }
+      span:last-child { font-size: 0.9rem; line-height: 1.5; color: #4a4060; }
+    }
+  }
+
+  .btn--primary { padding: 1rem 1.875rem; font-size: 1.03rem; }
+
+  // Left-aligned page, so the shared helper's centring is overridden here.
+  .btn-note {
+    margin: 0.75rem 0 0;
+    text-align: left;
+  }
+}
