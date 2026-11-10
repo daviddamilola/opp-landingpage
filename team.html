@@ -37,7 +37,7 @@ description: "The team behind the Open Psychiatry Project."
       {% if group.people.size > 0 %}
         {% for person in group.people %}
         <article class="team-card">
-          {% if person.photo %}
+          {% if person.photo and person.photo != "" %}
             <div class="team-photo">
               <img src="{{ '/assets/images/team/' | append: person.photo | relative_url }}" alt="{{ person.name }}" loading="lazy" width="400" height="400">
             </div>

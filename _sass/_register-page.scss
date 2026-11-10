@@ -11,9 +11,12 @@
   background: $off-white;
   padding: calc(3.5rem + 80px) 0 6.5rem;   // clears the fixed nav (see .team-intro)
 
+  // Left-aligned to the container like every other subpage (Team, Find
+  // out more…), so Back / heading / card / button share the page's left
+  // edge with the nav brand and footer. Width is capped for readability.
   .reg-inner {
-    max-width: 680px;
-    margin: 0 auto;
+    max-width: 820px;
+    margin: 0;
     text-align: left;
     display: flex;
     flex-direction: column;

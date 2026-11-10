@@ -86,6 +86,8 @@
     text-transform: uppercase;
     color: $teal-text;
     padding-top: 0.3rem;
+
+    &--problem { color: $orange-text; }   // Problem in deep orange, Solution stays teal
   }
 
   p {
