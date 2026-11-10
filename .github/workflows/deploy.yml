@@ -1,0 +1,45 @@
+# Builds main and publishes it to the ROOT of the gh-pages branch, leaving
+# the pr-preview/ folder (written by pr-preview.yml) in place.
+#
+# This replaces GitHub's built-in ("legacy") Pages build from main once
+# Settings → Pages → Source is switched to the gh-pages branch. It uses
+# the same github-pages gem as that built-in build, so the output is the
+# same as before. Until the switch is made this workflow is harmless: it
+# writes to gh-pages, but Pages keeps serving main.
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: deploy-main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build
+        run: |
+          bundle exec jekyll build --strict_front_matter
+          touch _site/.nojekyll   # gh-pages holds built HTML; don't run Jekyll on it again
+        env:
+          JEKYLL_ENV: production
+
+      - name: Publish to gh-pages (keeping PR previews)
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _site
+          branch: gh-pages
+          clean: true
+          clean-exclude: pr-preview/

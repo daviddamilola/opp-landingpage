@@ -83,6 +83,20 @@ Push to the `main` branch. GitHub Pages detects the Jekyll source and builds it 
 
 ---
 
+## PR preview links
+
+Every pull request gets its own preview build, published by `.github/workflows/pr-preview.yml` to the `gh-pages` branch under `pr-preview/pr-<number>/`. The workflow comments the link on the PR and removes the preview when the PR is closed or merged:
+
+```
+https://lynalllab.github.io/opp-landingpage/pr-preview/pr-<number>/
+```
+
+`main` is published to the root of the same `gh-pages` branch by `.github/workflows/deploy.yml`, which keeps the `pr-preview/` folder intact.
+
+**One-time setup (repo admin):** Settings → Pages → *Build and deployment* → Source: **Deploy from a branch** → branch **`gh-pages`**, folder **/ (root)**. Until that switch is made, the workflows run but Pages keeps serving `main` through the built-in Jekyll build, so previews are not reachable.
+
+---
+
 ## The "Register your interest" form
 
 The interest form is hosted externally on Qualtrics — this site does not own or style it. The URL lives in one place, **`_data/site.yml`** (`qualtrics_form_url`); every "Register your interest" trigger on the site reads from it and opens it in a modal (see `_includes/register-modal.html` and `assets/js/register-modal.js`).
