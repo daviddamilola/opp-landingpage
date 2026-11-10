@@ -1,49 +1,114 @@
-# Builds every pull request and publishes it to the gh-pages branch under
-# pr-preview/pr-<number>/, then comments the preview URL on the PR.
-# Previews are removed when the PR is closed or merged.
+# Builds a pull request and publishes it to the gh-pages branch under
+# pr-preview/pr-<number>/, then leaves (and updates) a comment on the PR
+# with the link. The preview is removed when the PR is closed or merged.
 #
-# Preview URL pattern:
-#   https://lynalllab.github.io/opp-landingpage/pr-preview/pr-<number>/
+# Runs automatically on PR events, and can also be run by hand from the
+# Actions tab ("Run workflow") with a PR number — useful on forks where
+# event-triggered workflows are switched off.
+#
+# Preview URL pattern (owner/repo taken from the repository that runs it):
+#   https://<owner>.github.io/opp-landingpage/pr-preview/pr-<number>/
 #
 # Requires GitHub Pages to be served from the gh-pages branch (Settings →
-# Pages → Source: "Deploy from a branch" → gh-pages / root). Until that
-# switch is made this workflow still runs but the previews are not served.
+# Pages → Source: "Deploy from a branch" → gh-pages / root).
 name: PR preview
 
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "Pull request number to preview"
+        required: true
+        type: string
+      remove:
+        description: "Remove the preview instead of building it"
+        required: false
+        type: boolean
+        default: false
 
-concurrency: pr-preview-${{ github.event.number }}
+concurrency: pr-preview-${{ github.event.number || inputs.pr }}
 
 permissions:
   contents: write        # push the built preview to gh-pages
   pull-requests: write   # comment the preview link on the PR
 
+env:
+  PR: ${{ github.event.number || inputs.pr }}
+  BASEURL: /${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number || inputs.pr }}
+
 jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
+      - name: Decide whether to deploy or remove
+        id: mode
+        run: |
+          if [ "${{ github.event.action }}" = "closed" ] || [ "${{ inputs.remove }}" = "true" ]; then
+            echo "mode=remove" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=deploy" >> "$GITHUB_OUTPUT"
+          fi
+
+      # On PR events this is the PR merge ref; on manual runs it is the PR's head.
       - uses: actions/checkout@v4
+        if: steps.mode.outputs.mode == 'deploy'
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/pull/{0}/head', inputs.pr) || '' }}
 
       - uses: ruby/setup-ruby@v1
-        if: github.event.action != 'closed'
+        if: steps.mode.outputs.mode == 'deploy'
         with:
           ruby-version: "3.3"
           bundler-cache: true
 
       - name: Build the site under the preview sub-path
-        if: github.event.action != 'closed'
-        run: |
-          bundle exec jekyll build --strict_front_matter \
-            --baseurl "/opp-landingpage/pr-preview/pr-${{ github.event.number }}"
+        if: steps.mode.outputs.mode == 'deploy'
+        run: bundle exec jekyll build --strict_front_matter --baseurl "$BASEURL"
         env:
           JEKYLL_ENV: production
 
-      - name: Publish or remove the preview
-        uses: rossjrw/pr-preview-action@v1
+      - name: Publish the preview to gh-pages
+        if: steps.mode.outputs.mode == 'deploy'
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          source-dir: ./_site
-          preview-branch: gh-pages
-          umbrella-dir: pr-preview
-          action: auto
+          folder: _site
+          branch: gh-pages
+          target-folder: pr-preview/pr-${{ env.PR }}
+          clean: true
+          commit-message: "Deploy preview for PR ${{ env.PR }}"
+
+      - name: Remove the preview from gh-pages
+        if: steps.mode.outputs.mode == 'remove'
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+      - if: steps.mode.outputs.mode == 'remove'
+        run: |
+          if [ -d "pr-preview/pr-$PR" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git rm -rq "pr-preview/pr-$PR"
+            git commit -m "Remove preview for PR $PR"
+            git push
+          fi
+
+      - name: Comment the preview link on the PR
+        if: steps.mode.outputs.mode == 'deploy'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url="https://${{ github.repository_owner }}.github.io${BASEURL}/"
+          marker="<!-- pr-preview-link -->"
+          body="$marker
+          :rocket: **Preview:** $url
+
+          Built from \`$(git rev-parse --short HEAD)\` at $(date -u +'%Y-%m-%d %H:%M UTC'). It goes live a minute or two after the \`gh-pages\` Pages build finishes."
+          existing=$(gh api "repos/${{ github.repository }}/issues/$PR/comments" --paginate --jq ".[] | select(.body | startswith(\"$marker\")) | .id" | head -n1)
+          if [ -n "$existing" ]; then
+            gh api -X PATCH "repos/${{ github.repository }}/issues/comments/$existing" -f body="$body" >/dev/null
+          else
+            gh api "repos/${{ github.repository }}/issues/$PR/comments" -f body="$body" >/dev/null
+          fi
+          echo "$url"
