@@ -15,12 +15,11 @@ Each YAML file has a comment block at the top explaining its fields. Find the pa
 | Home (`/`) — hero, about, "built for everyone" cards | `_data/home.yml` |
 | Home — "How It Works" feature cards | `_data/features.yml` |
 | Home — partner logos | `_data/partners.yml` |
-| Get involved (`/get-involved/`) — page copy, task cards, FAQ labels | `_data/get_involved_page.yml` |
-| Get involved — the 3 task cards (short title / subtitle / years) | `_data/projects.yml` |
+| Get involved (`/get-involved/`) — page copy, register section, FAQ labels | `_data/get_involved_page.yml` |
+| Get involved — the task timeline (years / title / subtitle / what you will do) | `_data/projects.yml` |
 | Get involved — the FAQ questions and answers | `_data/faqs.yml` |
 | Get involved — the 3-project breakdown inside "What would I do?" | `_data/faq_projects.yml` |
-| Register (`/register/`) — the page before the Qualtrics form | `_data/register_page.yml` |
-| Register — "What it asks" steps and trust points | `_data/get_involved.yml` |
+| Get involved — register card: "What it asks" steps and "How we look after it" points | `_data/get_involved.yml` |
 | Parked FAQs for the future `/good-experience/` page (not shown yet) | `_data/good_experience_faqs.yml` |
 | Team (`/team/`) — intro | `_data/team_page.yml` |
 | Team — Research team and Co-production team lists | `_data/team.yml` |
@@ -87,7 +86,7 @@ Push to the `main` branch. GitHub Pages detects the Jekyll source and builds it 
 
 The interest form is hosted externally on Qualtrics — this site does not own or style it. The URL lives in one place, **`_data/site.yml`** (`qualtrics_form_url`).
 
-There is a single route to the form: the "For patients, carers and public" nav item → `/get-involved/` → the green "Register your interest" button → `/register/` (a short page explaining what the form asks and how details are handled, copy in `_data/register_page.yml` and `_data/get_involved.yml`) → the Qualtrics form in a new tab. There are no other register prompts on the site.
+There is a single route to the form: the "For patients, carers and public" nav item → `/get-involved/` → the "Register your interest" section (what the form asks and how details are handled, copy in `_data/get_involved_page.yml` and `_data/get_involved.yml`) → the green "Open the form" button → the Qualtrics form in a new tab. There are no other register prompts on the site.
 
 To point the site at a different form, update `qualtrics_form_url` in `_data/site.yml` — nothing else needs to change.
 

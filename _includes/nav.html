@@ -2,7 +2,7 @@
 {% if page.url == '/team/' %}{% assign is_team = true %}{% endif %}
 
 {% assign is_get_involved = false %}
-{% if page.url == '/get-involved/' or page.url == '/register/' %}{% assign is_get_involved = true %}{% endif %}
+{% if page.url == '/get-involved/' %}{% assign is_get_involved = true %}{% endif %}
 
 {% assign is_glossary = false %}
 {% if page.url == '/glossary/' %}{% assign is_glossary = true %}{% endif %}

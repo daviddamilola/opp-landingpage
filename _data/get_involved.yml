@@ -1,23 +1,22 @@
 # ===================================================================
-# Register-interest preview card, rendered on register.html (/register/)
-# — the "what it asks" steps and the trust points shown before the
-# visitor continues to the external form. The form itself lives at
+# Register-interest card on get-involved.html (/get-involved/) — the
+# "what it asks" steps and the "how we look after it" points shown next
+# to the button that opens the external form. The form itself lives at
 # _data/site.yml: qualtrics_form_url — nothing here controls its
-# questions. Page chrome (heading, lead, button labels) lives in
-# _data/register_page.yml.
+# questions. If the survey's questions change, re-check the steps.
 # ===================================================================
 
 preview:
-  label: "What it asks"
+  steps_label: "What it asks"
   steps:
     - "Your name, email and where you are"
     - "A little about you"
     - "Why you want to contribute &mdash; three short questions"
     - "Which tasks interest you"
     - "Allow us to collect your data and contact you"
+  trust_label: "How we look after it"
   trust_points:
     - "Hosted and stored by the University of Cambridge"
     - "You choose what you hear about, and how often"
-    - "No commitment &mdash; registering interest is not signing up"
     - "The contact details you provide will be handled in accordance with UK GDPR."
     - "You can ask to have your details removed at any time by contacting us."

@@ -7,69 +7,123 @@ description: "How people with lived experience of mental illness, and those who 
 
 <!-- ═══════════════════════════════════════════════════════════════
      GET INVOLVED — for patients, carers and public
-     Edit: all copy lives in _data/get_involved_page.yml. Task cards
-     come from _data/projects.yml, the FAQ accordion from
-     _data/faqs.yml and the "What would I do?" breakdown from
-     _data/faq_projects.yml. This file just renders them.
+     Edit: all copy lives in _data/get_involved_page.yml. The register
+     card reads _data/get_involved.yml (preview:), the task timeline
+     reads _data/projects.yml, the FAQ accordion reads _data/faqs.yml
+     and the "What would I do?" breakdown reads _data/faq_projects.yml
+     (+ projects.yml for the task text). This file just renders them.
      Styles — see _get-involved.scss
+     Timeline reveal — assets/js/gi-timeline.js
      Accordion behaviour — see _accordion.scss / assets/js/accordion.js
      ═══════════════════════════════════════════════════════════════ -->
 {% assign gi = site.data.get_involved_page %}
+{% assign projects = site.data.projects %}
+{% assign first_year = projects.first.years | slice: 0, 4 %}
+{% assign last_year = projects.last.years | slice: -4, 4 %}
 
+<!-- ── Hero: text stack left, watercolour right ─────────────────── -->
 <section class="gi-hero" id="gi-hero" aria-labelledby="gi-heading">
-  <div class="container">
-    <h1 id="gi-heading">{{ gi.hero.heading }}</h1>
-    <p class="gi-subtitle">{{ gi.hero.subtitle }}</p>
+  <div class="container gi-hero-grid">
+    <div class="gi-hero-text">
+      <div class="gi-hero-head">
+        <span class="gi-eyebrow">{{ gi.hero.eyebrow }}</span>
+        <h1 id="gi-heading">{{ gi.hero.heading }}</h1>
+      </div>
+      <div class="gi-ps">
+        <div class="gi-ps-item">
+          <span class="gi-ps-label gi-ps-label--problem">{{ gi.pitch.problem_label }}</span>
+          <p>{{ gi.pitch.problem }}</p>
+        </div>
+        <div class="gi-ps-item">
+          <span class="gi-ps-label">{{ gi.pitch.solution_label }}</span>
+          <p>{{ gi.pitch.solution }}</p>
+        </div>
+      </div>
+    </div>
     {% if gi.hero_image.file != "" %}
-    <figure class="gi-image">
-      <img src="{{ '/assets/images/' | append: gi.hero_image.file | relative_url }}" alt="{{ gi.hero_image.alt }}"{% if gi.hero_image.width %} width="{{ gi.hero_image.width }}" height="{{ gi.hero_image.height }}"{% endif %}>
-    </figure>
+    <img class="gi-hero-img" src="{{ '/assets/images/' | append: gi.hero_image.file | relative_url }}" alt="{{ gi.hero_image.alt }}"{% if gi.hero_image.width %} width="{{ gi.hero_image.width }}" height="{{ gi.hero_image.height }}"{% endif %}>
     {% endif %}
   </div>
 </section>
 
-<section class="gi-pitch" id="gi-pitch">
+<!-- ── Recruitment ask ──────────────────────────────────────────── -->
+<div class="gi-ask">
   <div class="container">
-    <div class="gi-pitch-inner">
-      <div class="gi-ps">
-        <span class="gi-ps-label gi-ps-label--problem">{{ gi.pitch.problem_label }}</span>
-        <p>{{ gi.pitch.problem }}</p>
-      </div>
-      <div class="gi-ps">
-        <span class="gi-ps-label">{{ gi.pitch.solution_label }}</span>
-        <p>{{ gi.pitch.solution }}</p>
-      </div>
-      <hr>
-      {% for p in gi.pitch.paragraphs %}
-      <p>{{ p }}</p>
+    <div class="gi-ask-inner">
+      {% for p in gi.ask.paragraphs %}
+      <p{% if forloop.first %} class="gi-lede"{% endif %}>{{ p | replace: "%%first%%", first_year | replace: "%%last%%", last_year }}</p>
       {% endfor %}
+      <a class="gi-jump" href="#gi-tasks">{{ gi.ask.jump_label }}</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── Register your interest (form opens directly) ─────────────── -->
+<section class="gi-register" id="gi-register" aria-labelledby="gi-register-heading">
+  <div class="container gi-register-grid">
+    <div class="gi-register-text">
+      <h2 id="gi-register-heading">{{ gi.register.heading }}</h2>
+      <p>{{ gi.register.intro }}</p>
+      <div class="gi-register-cta">
+        <a href="{{ site.data.site.qualtrics_form_url }}" class="btn btn--primary" target="_blank" rel="noopener">{{ gi.register.cta_label }}</a>
+        <span class="btn-note">{{ gi.register.cta_note }}</span>
+      </div>
+    </div>
+    <div class="gi-register-card">
+      <div class="gi-register-col">
+        <span class="gi-card-label">{{ site.data.get_involved.preview.steps_label }}</span>
+        <ol>
+          {% for step in site.data.get_involved.preview.steps %}
+          <li><span class="gi-num">{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span> <span>{{ step }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="gi-register-col">
+        <span class="gi-card-label">{{ site.data.get_involved.preview.trust_label }}</span>
+        <ul>
+          {% for point in site.data.get_involved.preview.trust_points %}
+          <li><span class="gi-tick" aria-hidden="true">&check;</span> <span>{{ point }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ── The tasks: timeline ──────────────────────────────────────── -->
 <section class="gi-tasks" id="gi-tasks" aria-labelledby="gi-tasks-heading">
   <div class="container">
-    <h2 id="gi-tasks-heading">{{ gi.tasks.heading }}</h2>
-    <ol class="gi-task-grid">
-      {% for project in site.data.projects %}
-      <li class="gi-task">
-        <span class="gi-task-eyebrow">{{ gi.tasks.eyebrow_prefix }} {{ forloop.index }} &middot; {{ project.years }}</span>
-        <h3>{{ project.title }}</h3>
-        <p>{{ project.subtitle }}</p>
+    <div class="gi-tasks-head">
+      <h2 id="gi-tasks-heading">{{ gi.tasks.heading }}</h2>
+      <p>{{ gi.tasks.intro | replace: "%%first%%", first_year | replace: "%%last%%", last_year }}</p>
+    </div>
+    <ol class="gi-timeline">
+      {% for project in projects %}
+      <li class="gi-tl-row">
+        <div class="gi-tl-date" data-anim>
+          <span class="gi-tl-years">{{ project.years }}</span>
+          <span class="gi-tl-project">{{ gi.tasks.eyebrow_prefix }} {{ forloop.index }}</span>
+        </div>
+        <div class="gi-tl-spine" aria-hidden="true">
+          <span class="gi-tl-line" data-anim></span>
+          <span class="gi-tl-dot" data-anim></span>
+        </div>
+        <div class="gi-tl-body" data-anim>
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.subtitle }}</p>
+          <div class="gi-tl-task">
+            <span class="gi-tl-task-label">{{ gi.tasks.task_label }}</span>
+            <p>{{ project.task }}</p>
+          </div>
+        </div>
       </li>
       {% endfor %}
     </ol>
-    <p class="gi-tasks-note">{{ gi.tasks.note }}</p>
+    <p class="gi-workshops" data-anim>{{ gi.tasks.workshops_note }}</p>
   </div>
 </section>
 
-<section class="gi-cta" id="gi-cta">
-  <div class="container">
-    <a href="{{ '/register/' | relative_url }}" class="btn btn--primary">{{ gi.cta.label }}</a>
-    <p class="btn-note">{{ gi.cta.note }}</p>
-  </div>
-</section>
-
+<!-- ── FAQs ─────────────────────────────────────────────────────── -->
 <section class="gi-faqs" id="gi-faqs" aria-labelledby="gi-faqs-heading">
   <div class="container">
     <div class="gi-faqs-inner">
@@ -89,6 +143,7 @@ description: "How people with lived experience of mental illness, and those who 
               {% if item.projects %}
               <p>{{ item.intro }}</p>
               {% for project in site.data.faq_projects %}
+              {% assign task_source = projects[forloop.index0] %}
               <article class="gi-project">
                 <h4>{{ forloop.index }}. {{ project.title }} ({{ project.years }})</h4>
 
@@ -104,7 +159,7 @@ description: "How people with lived experience of mental illness, and those who 
 
                 <div class="gi-project-field">
                   <span class="gi-field-label">{{ gi.faqs.what_label }}</span>
-                  {{ project.what_you_will_do | markdownify }}
+                  <p>{{ task_source.task }}</p>
                 </div>
               </article>
               {% endfor %}
@@ -120,6 +175,7 @@ description: "How people with lived experience of mental illness, and those who 
   </div>
 </section>
 
+<!-- ── Contact ──────────────────────────────────────────────────── -->
 <section class="gi-contact" id="gi-contact">
   <div class="container">
     <div class="gi-contact-inner">

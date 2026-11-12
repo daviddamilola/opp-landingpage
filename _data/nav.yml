@@ -27,7 +27,7 @@ links:
   - url: "/more/"
     label: "Find out more"
   - url: "/get-involved/"
-    label: "For patients, carers and public"
+    label: "Patients, carers &amp; public"
     muted: true
   - url: "/industry/"
     label: "For industry"

@@ -30,10 +30,9 @@ This is a Jekyll static site with **no theme** — all layouts and styles are bu
 | Home page copy (hero, about, audience cards) | `_data/home.yml` |
 | Feature cards ("How It Works") | `_data/features.yml` |
 | Partner list and logos | `_data/partners.yml` |
-| Get Involved page copy (`/get-involved/`: hero, pitch, task labels, FAQ labels, contact) | `_data/get_involved_page.yml` |
-| Get Involved task cards (title / subtitle / years) | `_data/projects.yml` |
-| Register page copy (`/register/`, pre-Qualtrics interstitial) | `_data/register_page.yml` |
-| Register page "What it asks" steps + trust points | `_data/get_involved.yml` |
+| Get Involved page copy (`/get-involved/`: hero, pitch, ask, register section, task/FAQ labels, contact) | `_data/get_involved_page.yml` |
+| Get Involved task timeline (years / title / subtitle / task) — also feeds the FAQ breakdown's "What you will do" | `_data/projects.yml` |
+| Get Involved register card: "What it asks" steps + "How we look after it" points | `_data/get_involved.yml` |
 | Booking modal copy (industry page) | `_data/booking_modal.yml` |
 | Site nav labels/links | `_data/nav.yml` |
 | Team page intro + placeholder label | `_data/team_page.yml` |
@@ -56,7 +55,7 @@ Layout HTML lives in `_layouts/default.html` and `_includes/`. The SCSS lives in
 
 ### Register interest (external Qualtrics form)
 
-The interest form is hosted externally on Qualtrics — this site doesn't own or style its questions. `_data/site.yml`'s `qualtrics_form_url` is the single source of truth for the URL. There is exactly **one** recruitment route and no other register prompts anywhere on the site: nav item "For patients, carers and public" (`muted: true` in `nav.yml`, rendered grey via `.nav-link--muted`) → `/get-involved/` (`get-involved.html`, PPI landing page with task cards from `projects.yml` and a five-item FAQ accordion from `faqs.yml` + `faq_projects.yml`) → green button → `/register/` (`register.html`, interstitial listing what the form asks, from `get_involved.yml › preview`) → Qualtrics in a new tab. `/faqs/` redirects to `/get-involved/`. The `/good-experience/` page linked from the get-involved page does not exist yet; its parked FAQ content is in `_data/good_experience_faqs.yml`. The industry page keeps its own booking modal (`_includes/booking-modal.html`).
+The interest form is hosted externally on Qualtrics — this site doesn't own or style its questions. `_data/site.yml`'s `qualtrics_form_url` is the single source of truth for the URL. There is exactly **one** recruitment route and no other register prompts anywhere on the site: nav item "For patients, carers and public" (`muted: true` in `nav.yml`, rendered grey via `.nav-link--muted`) → `/get-involved/` (`get-involved.html`: two-column hero, recruitment ask, an inline "Register your interest" section listing what the form asks from `get_involved.yml › preview`, a task timeline from `projects.yml` with a scroll-in reveal in `assets/js/gi-timeline.js`, and a five-item FAQ accordion from `faqs.yml` + `faq_projects.yml`) → green "Open the form" button → Qualtrics in a new tab. `/faqs/` redirects to `/get-involved/`. The `/good-experience/` page linked from the get-involved page does not exist yet; its parked FAQ content is in `_data/good_experience_faqs.yml`. The industry page keeps its own booking modal (`_includes/booking-modal.html`).
 
 ### Diagonal section dividers
 

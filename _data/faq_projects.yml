@@ -13,7 +13,9 @@
 #                                       get-involved.html (no label)
 #     clinician_label / clinician_text: kept in data for reference but
 #                                       NOT shown on the page
-#   what_you_will_do: plain text/markdown
+#   (the "What you will do" text comes from _data/projects.yml › task,
+#    matched by position, so it is written once for the timeline and
+#    the FAQ breakdown)
 # ===================================================================
 
 - title: "Conversations with science: helping AI to unlock the biology of mental health for public understanding"
@@ -33,10 +35,6 @@
     clinician_text: >
       It helps map out how advanced biological data can be surfaced quickly during patient care or
       discovery sessions.
-  what_you_will_do: >
-    You will help us decide what people actually want to ask about the biology of mental health,
-    test early AI prototypes, and define what a "good, trustworthy, and understandable answer"
-    looks like.
 
 - title: "Clues in the records: deciding what matters most in hospital & GP data"
   years: "2027–2028"
@@ -55,10 +53,6 @@
     clinician_text: >
       We will build a clean, standardised blueprint for extracting high-value data patterns from
       chaotic real-world medical notes.
-  what_you_will_do: >
-    You will review types of real-world health data (from prescription histories to hospital
-    admissions) and help prioritize which specific measures are meaningful enough to invest time
-    in unlocking.
 
 - title: "The co-pilot study: directing a patient-led mental health analysis"
   years: "2029"
@@ -76,6 +70,3 @@
     clinician_text: >
       It provides a front-row seat to an innovative, completely secure way of doing decentralized,
       multi-site privacy-preserving research.
-  what_you_will_do: >
-    You will join a collaborative team to pitch research ideas, design a custom study protocol,
-    and test run the secure analysis within the federated data platform.
